@@ -1,0 +1,21 @@
+{
+  "visual": {
+    "name": "easyWaterfall",
+    "displayName": "easyWaterfall",
+    "guid": "myWaterfall9DA573385558428B909A81D91F9BB54A",
+    "visualClassName": "Visual",
+    "version": "1.0.0.1",
+    "description": "EasyWaterfall is a custom visual based on D3.js that allows you to create waterfall charts in Power BI. It provides an intuitive interface for visualizing the cumulative effect of sequentially introduced positive or negative values using categories and an impact measure.",
+    "supportUrl": "https://google.es",
+    "gitHubUrl": ""
+  },
+  "apiVersion": "5.3.0",
+  "author": { "name": "Agustin Perez Torregrosa", "email": "agustin.perezelche@gmail.com" },
+  "assets": { "icon": "assets/icon.png" },
+  "externalJS": null,
+  "style": "style/visual.less",
+  "capabilities": "capabilities.json",
+  "dependencies": null,
+  "stringResources": [],
+  "version": "1.0.0.1"
+}
