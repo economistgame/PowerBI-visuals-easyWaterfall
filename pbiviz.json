@@ -6,8 +6,8 @@
     "visualClassName": "Visual",
     "version": "1.0.0.1",
     "description": "EasyWaterfall is a custom visual based on D3.js that allows you to create waterfall charts in Power BI. It provides an intuitive interface for visualizing the cumulative effect of sequentially introduced positive or negative values using categories and an impact measure.",
-    "supportUrl": "https://google.es",
-    "gitHubUrl": ""
+    "supportUrl": "https://agustinpereztorregrosa.com/PowerBI-visuals-easyWaterfall/",
+    "gitHubUrl": "https://github.com/economistgame/PowerBI-visuals-easyWaterfall"
   },
   "apiVersion": "5.3.0",
   "author": { "name": "Agustin Perez Torregrosa", "email": "agustin.perezelche@gmail.com" },

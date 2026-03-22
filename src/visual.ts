@@ -122,22 +122,6 @@ export class Visual implements IVisual {
         let categories = categorical.categories[0].values.map(v => v.toString());
         const categoriesField = categorical.categories[0];
        
-         //let categories: string[];
-         //Si existen las categorias se usa eso, sino se usan los nombres de las medidas (para el caso de que no haya categorias, como en el ejemplo del video)
-        //  if (categorical.categories && categorical.categories.length > 0) {
-        //      categories = categorical.categories[0].values.map(v => v.toString());
-        //  } else {
-        //      categories = categorical.values.map(v =>
-        //          v.source.displayName ?? "Measure"
-        //      );
-           
-        //  }
-        // const categoriesRoot = categorical.categories;
-        // let categories = categoriesRoot.find(c => c.source.roles['bridgeCategory'])?.values.map(v => v.toString());
-        // if (!categories || !categories.values.length) {
-        //     categories = categorical.values.find(v => v.source.roles['bridgeMeasure'])?.values.map(v => v.toString());
-        // }
-        // // Hasta aqui la invención de GPT para manejar el caso sin categorias
         const valuesMetadata = categorical.values;
         const startName = valuesMetadata.find(v => v.source.roles['startValue'])?.source.displayName;
         const endName = valuesMetadata.find(v => v.source.roles['endValue'])?.source.displayName;
