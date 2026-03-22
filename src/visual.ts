@@ -75,8 +75,8 @@ export class Visual implements IVisual {
     public update(options: VisualUpdateOptions) {
 
         const dataView = options.dataViews[0];
-
-        const showLandingPage = !dataView || !dataView.categorical || dataView.categorical.categories.length === 0 || dataView.categorical.values.length === 0;
+        //dataView.categorical.categories.length === 0 
+        const showLandingPage = !dataView || !dataView.categorical || dataView.categorical.values.length === 0;
         //if (!dataView || !dataView.categorical) return;
         //if (!dataView) return;
          if (showLandingPage) {
