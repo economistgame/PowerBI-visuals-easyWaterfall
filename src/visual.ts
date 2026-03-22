@@ -112,51 +112,47 @@ export class Visual implements IVisual {
         const rotation = this.formattingSettings.AlignmentCard2.labelRotation.value;
         const dYAdjustment = this.formattingSettings.AlignmentCard2.dYAdjustment.value;
 
-            const { width, height } = options.viewport;
+        const categorical = dataView.categorical;
+        const { width, height } = options.viewport;
 
-            this.svg.attr("width", width).attr("height", height);
-            this.container.selectAll("*").remove();
+        this.svg.attr("width", width).attr("height", height);
+        this.container.selectAll("*").remove();
 
-            // --- EXTRACCIÓN MANUAL POR ROLES ---
-            // 1. Extraemos los roles de forma segura
-            const categorical = dataView.categorical;
-            const valuesMetadata = categorical.values;
+        // --- EXTRACCIÓN MANUAL POR ROLES ---
+        let categories = categorical.categories[0].values.map(v => v.toString());
+        const categoriesField = categorical.categories[0];
+       
+         //let categories: string[];
+         //Si existen las categorias se usa eso, sino se usan los nombres de las medidas (para el caso de que no haya categorias, como en el ejemplo del video)
+        //  if (categorical.categories && categorical.categories.length > 0) {
+        //      categories = categorical.categories[0].values.map(v => v.toString());
+        //  } else {
+        //      categories = categorical.values.map(v =>
+        //          v.source.displayName ?? "Measure"
+        //      );
+           
+        //  }
+        // const categoriesRoot = categorical.categories;
+        // let categories = categoriesRoot.find(c => c.source.roles['bridgeCategory'])?.values.map(v => v.toString());
+        // if (!categories || !categories.values.length) {
+        //     categories = categorical.values.find(v => v.source.roles['bridgeMeasure'])?.values.map(v => v.toString());
+        // }
+        // // Hasta aqui la invención de GPT para manejar el caso sin categorias
+        const valuesMetadata = categorical.values;
+        const startName = valuesMetadata.find(v => v.source.roles['startValue'])?.source.displayName;
+        const endName = valuesMetadata.find(v => v.source.roles['endValue'])?.source.displayName;
+        const bridgeValuesNames = dataView.categorical.values
+                                .filter(v => v.source.roles?.['bridgeMeasure']) // Filtramos las que cumplen el rol
+                                .map(v => v.source.displayName ?? "Measure");
 
-            // 2. Intentamos obtener la categoría (si existe)
-            const categoryField = categorical.categories?.[0];
-            const hasCategory = !!(categoryField && categoryField.values.length > 0);
+        const startVal = <number>valuesMetadata.find(v => v.source.roles['startValue'])?.values[0] || 0;
+        const bridgeVals = valuesMetadata.find(v => v.source.roles['bridgeMeasure'])?.values || [];
+        const endVal = <number>valuesMetadata.find(v => v.source.roles['endValue'])?.values[0] || 0;
 
-            // 3. Nombres de las medidas del "bridge"
-            const bridgeColumns = valuesMetadata.filter(v => v.source.roles?.['bridgeMeasure']);
-            const bridgeMeasureNames = bridgeColumns.map(v => v.source.displayName ?? "Measure");
 
-            // --- VARIABLES FINALES ---
-            let finalLabels: string[] = [];
-            let finalValues: number[] = [];
-
-            if (hasCategory) {
-                // CASO A: Categoría + 1 Medida (Ej: País + Ventas)
-                // Usamos los valores de la categoría como etiquetas
-                finalLabels = categoryField.values.map(v => v.toString());
-                
-                // Los valores salen de la primera medida del bridge
-                const firstBridgeColumn = bridgeColumns[0];
-                finalValues = firstBridgeColumn ? firstBridgeColumn.values.map(v => <number>v || 0) : [];
-            } else {
-                // CASO B: Sin Categoría + Múltiples Medidas (Ej: Ventas, Costes, Margen)
-                // Las etiquetas son los nombres de las medidas
-                finalLabels = bridgeMeasureNames;
-                
-                // Los valores son el primer elemento de cada columna de medida
-                finalValues = bridgeColumns.map(v => <number>v.values[0] || 0);
-            }
-
-            // 4. Valores de inicio y fin (suponiendo que son medidas únicas)
-            const startName = valuesMetadata.find(v => v.source.roles['startValue'])?.source.displayName;
-            const startVal = <number>valuesMetadata.find(v => v.source.roles['startValue'])?.values[0] || 0;
-
-            const endName = valuesMetadata.find(v => v.source.roles['endValue'])?.source.displayName;
-            const endVal = <number>valuesMetadata.find(v => v.source.roles['endValue'])?.values[0] || 0;
+        if (bridgeValuesNames.length > 1){
+            categories = bridgeValuesNames;
+        } 
 
         // --- CONSTRUCCIÓN DEL ARRAY DE PUNTOS ---
         let data: any[] = [];
@@ -174,9 +170,9 @@ export class Visual implements IVisual {
 
         // 2. Conexiones / Variaciones
         //cats.forEach((cat, i) => {
-            finalLabels.forEach((cat, i) => {
+        categories.forEach((cat, i) => {
 
-            const val = <number>finalValues[i] || 0;
+            const val = <number>bridgeVals[i] || 0;
 
             data.push({
                 label: cat.toString(),
@@ -185,7 +181,7 @@ export class Visual implements IVisual {
                 endTooltip:runningTotal + val,
                 type: val >= 0 ? "inc" : "dec",
                 selectionId: this.host.createSelectionIdBuilder()
-                    .withCategory(categoryField, i)
+                    .withCategory(categoriesField, i)
                     .createSelectionId()
             });
 
