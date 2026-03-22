@@ -119,7 +119,7 @@ export class Visual implements IVisual {
         this.container.selectAll("*").remove();
 
         // --- EXTRACCIÓN MANUAL POR ROLES ---
-        const categories = categorical.categories[0].values;
+        let categories = categorical.categories[0].values.map(v => v.toString());
         const categoriesField = categorical.categories[0];
        
          //let categories: string[];
@@ -139,10 +139,20 @@ export class Visual implements IVisual {
         // }
         // // Hasta aqui la invención de GPT para manejar el caso sin categorias
         const valuesMetadata = categorical.values;
+        const startName = valuesMetadata.find(v => v.source.roles['startValue'])?.source.displayName;
+        const endName = valuesMetadata.find(v => v.source.roles['endValue'])?.source.displayName;
+        const bridgeValuesNames = dataView.categorical.values
+                                .filter(v => v.source.roles?.['bridgeMeasure']) // Filtramos las que cumplen el rol
+                                .map(v => v.source.displayName ?? "Measure");
 
         const startVal = <number>valuesMetadata.find(v => v.source.roles['startValue'])?.values[0] || 0;
         const bridgeVals = valuesMetadata.find(v => v.source.roles['bridgeMeasure'])?.values || [];
         const endVal = <number>valuesMetadata.find(v => v.source.roles['endValue'])?.values[0] || 0;
+
+
+        if (bridgeValuesNames.length > 1){
+            categories = bridgeValuesNames;
+        } 
 
         // --- CONSTRUCCIÓN DEL ARRAY DE PUNTOS ---
         let data: any[] = [];
@@ -150,7 +160,7 @@ export class Visual implements IVisual {
 
         // 1. Valor inicial
         data.push({
-            label: inicioText,
+            label: startName,
             start: 0,
             end: startVal,
             endTooltip: startVal,
@@ -180,7 +190,7 @@ export class Visual implements IVisual {
 
         // 3. Valor final endVal
         data.push({
-            label: finText,
+            label: endName,
             start: 0,
             end: runningTotal,
             endTooltip: endVal,
