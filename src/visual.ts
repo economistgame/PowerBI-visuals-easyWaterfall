@@ -192,10 +192,19 @@ export class Visual implements IVisual {
             });
         }
         // 3. Valor final endVal
+        const hasAligment = true;
+        let graphValue;
+        if(hasAligment){
+             graphValue = runningTotal;
+        } else {
+             graphValue = endVal
+
+        }
+
         data.push({
             label: endName,
             start: startlevel,
-            end: runningTotal,
+            end: graphValue,
             endTooltip: endVal,
             type: "total",
             selectionId: this.host.createSelectionIdBuilder().createSelectionId()
@@ -285,7 +294,7 @@ export class Visual implements IVisual {
         );
 
         // --- INTERACTIVIDAD ---
-        //Edfecto de selección al hacer click sobre una barra
+        //Efecto de selección al hacer click sobre una barra
         bars.on("click", (event, d: any) => {
             if (this.host.hostCapabilities.allowInteractions) {
                 const excludedCategories = ["total"];
