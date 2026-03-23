@@ -4,8 +4,8 @@
     "Visual_bridgeMeasures";"Values",
     "Visual_ValorFinal":"End Value",
     "SettingsCat_Colors":"Colors",
-    "Settings_TotalColor":,
-    "Settings_increaseColor":,
-    "Settings_decreaseColor":,
-    "Settings_connectorColor":
+    "Settings_TotalColor":"Start/End Color",
+    "Settings_increaseColor":"Increase Color",
+    "Settings_decreaseColor":"Decrease Color",
+    "Settings_connectorColor":"Connector Color"
 }
