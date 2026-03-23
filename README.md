@@ -5,7 +5,7 @@ EasyWaterfall is a custom visual based on D3.js that allow you to create waterfa
 Please read and respect the [License Terms](LICENSE) if you will use these samples and examples in your content and work. It is not permitted to use this content or derivatives of this content in commercial works and trainings without the express consent of the author.
 
 ## ⚠️ Notice
-These templates are provided as-is without warranties or guarantees. They are not maintained nor are they all necessarily suitable for use in production solutions.
+Visual are provided as-is without warranties or guarantees. They are not maintained nor are they all necessarily suitable for use in production solutions.
 
 Feel free to use them, but do so at your own risk.
 ## Installation
