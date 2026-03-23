@@ -112,6 +112,13 @@ export class Visual implements IVisual {
         const rotation = this.formattingSettings.AlignmentCard2.labelRotation.value;
         const dYAdjustment = this.formattingSettings.AlignmentCard2.dYAdjustment.value;
 
+        const hasOthers = false;
+        const OthersLabel = "Other";
+        const hasAligment = true;
+        const startlevel = 0;
+        const hasConnections = true;
+
+
     //Empieza la peli con el gráfico
         const categorical = dataView.categorical;
         const { width, height } = options.viewport;
@@ -148,7 +155,6 @@ export class Visual implements IVisual {
         // haya un others, si el analista lo considera irrelevante.
         // 1. Valor inicial
         
-        const startlevel = 0;
 
         data.push({
             label: startName,
@@ -177,10 +183,7 @@ export class Visual implements IVisual {
 
             runningTotal += val;
         });
-
-        const hasOthers = false;
-        const OthersLabel = "Other";
-
+        // 2.bis Other
         const othersValue = endVal - runningTotal;
         if(hasOthers && othersValue!=0){
             data.push({
@@ -192,7 +195,6 @@ export class Visual implements IVisual {
             });
         }
         // 3. Valor final endVal
-        const hasAligment = true;
         let graphValue;
         if(hasAligment){
              graphValue = runningTotal;
@@ -332,7 +334,6 @@ export class Visual implements IVisual {
         });
 
         // --- LÍNEAS CONECTORAS ---
-        const hasConnections = true;
 
         if(hasConnections){
             data.forEach((d, i) => {
