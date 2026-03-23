@@ -97,6 +97,7 @@ export class Visual implements IVisual {
 
 
     // Configuraciones extraídas de settings
+
         const totalColor     = this.formattingSettings.WaterfallCard.totalColor.value.value;
         const increaseColor  = this.formattingSettings.WaterfallCard.increaseColor.value.value;
         const decreaseColor  = this.formattingSettings.WaterfallCard.decreaseColor.value.value;
@@ -118,31 +119,15 @@ export class Visual implements IVisual {
         this.svg.attr("width", width).attr("height", height);
         this.container.selectAll("*").remove();
 
-        // --- EXTRACCIÓN MANUAL POR ROLES ---
+        // --- EXTRACCIÓN DE VALORES ---
         let categories = categorical.categories[0].values.map(v => v.toString());
         const categoriesField = categorical.categories[0];
        
-         //let categories: string[];
-         //Si existen las categorias se usa eso, sino se usan los nombres de las medidas (para el caso de que no haya categorias, como en el ejemplo del video)
-        //  if (categorical.categories && categorical.categories.length > 0) {
-        //      categories = categorical.categories[0].values.map(v => v.toString());
-        //  } else {
-        //      categories = categorical.values.map(v =>
-        //          v.source.displayName ?? "Measure"
-        //      );
-           
-        //  }
-        // const categoriesRoot = categorical.categories;
-        // let categories = categoriesRoot.find(c => c.source.roles['bridgeCategory'])?.values.map(v => v.toString());
-        // if (!categories || !categories.values.length) {
-        //     categories = categorical.values.find(v => v.source.roles['bridgeMeasure'])?.values.map(v => v.toString());
-        // }
-        // // Hasta aqui la invención de GPT para manejar el caso sin categorias
         const valuesMetadata = categorical.values;
         const startName = valuesMetadata.find(v => v.source.roles['startValue'])?.source.displayName;
         const endName = valuesMetadata.find(v => v.source.roles['endValue'])?.source.displayName;
         const bridgeValuesNames = dataView.categorical.values
-                                .filter(v => v.source.roles?.['bridgeMeasure']) // Filtramos las que cumplen el rol
+                                .filter(v => v.source.roles?.['bridgeMeasure'])
                                 .map(v => v.source.displayName ?? "Measure");
 
         const startVal = <number>valuesMetadata.find(v => v.source.roles['startValue'])?.values[0] || 0;
@@ -169,7 +154,6 @@ export class Visual implements IVisual {
         });
 
         // 2. Conexiones / Variaciones
-        //cats.forEach((cat, i) => {
         categories.forEach((cat, i) => {
 
             const val = <number>bridgeVals[i] || 0;

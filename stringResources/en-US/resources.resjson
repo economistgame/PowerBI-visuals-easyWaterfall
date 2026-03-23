@@ -1,0 +1,11 @@
+{
+    "Visual_ValorInicial":"Start Value",
+    "Visual_bridgeCategory":"Categories",
+    "Visual_bridgeMeasures";"Values",
+    "Visual_ValorFinal":"End Value",
+    "SettingsCat_Colors":"Colors",
+    "Settings_TotalColor":"Start/End Color",
+    "Settings_increaseColor":"Increase Color",
+    "Settings_decreaseColor":"Decrease Color",
+    "Settings_connectorColor":"Connector Color"
+}

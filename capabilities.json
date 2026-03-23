@@ -1,9 +1,9 @@
 {
 "dataRoles": [
-        { "displayName": "Valor Inicial", "name": "startValue", "kind": "Measure" },
-        { "displayName": "Categorías del Puente", "name": "bridgeCategory", "kind": "Grouping"  },
-        { "displayName": "Variaciones (Valores)", "name": "bridgeMeasure", "kind": "GroupingOrMeasure" },
-        { "displayName": "Valor Final", "name": "endValue", "kind": "Measure" }
+        { "displayName": "Valor Inicial","displayNameKey": "Visual_ValorInicial", "name": "startValue", "kind": "Measure" },
+        { "displayName": "Categorías","displayNameKey": "Visual_bridgeCategory", "name": "bridgeCategory", "kind": "Grouping"  },
+        { "displayName": "Valores","displayNameKey": "Visual_bridgeMeasures", "name": "bridgeMeasure", "kind": "GroupingOrMeasure" },
+        { "displayName": "Valor Final","displayNameKey": "Visual_ValorFinal", "name": "endValue", "kind": "Measure" }
     ],
     "dataViewMappings": [{
         "categorical": {
@@ -25,72 +25,75 @@
     "objects": {
         "colors": {
             "displayName": "Colores",
+            "displayNameKey": "SettingsCat_Colors",
             "properties": {
                 "totalColor": {
-                    "displayName": "Color Totales",
+                    "displayName": "Total Color",
+                    "displayNameKey": "Settings_TotalColor",
                     "type": { "fill": { "solid": { "color": true } } }
                 },
                 "increaseColor": {
-                    "displayName": "Color Incrementos",
+                    "displayName": "Increase Color",
+                    "displayNameKey": "Settings_increaseColor",
                     "type": { "fill": { "solid": { "color": true } } }
                 },
                 "decreaseColor": {
-                    "displayName": "Color Decrementos",
+                    "displayName": "Decrease Color",
+                    "displayNameKey": "Settings_decreaseColor",
                     "type": { "fill": { "solid": { "color": true } } }
                 },
                 "connectorColor": {
-                    "displayName": "Color Conectores",
+                    "displayName": "Connector Color",
+                    "displayNameKey": "Settings_connectorColor",
                     "type": { "fill": { "solid": { "color": true } } }
-                }
-            }
-        },
-        "labels": {
-            "displayName": "Etiquetas",
-            "properties": {
-                "inicioText": {
-                    "displayName": "Texto de inicio",
-                    "type": { "text": true }
-                },
-                "finText": {
-                    "displayName": "Texto de fin",
-                    "type": { "text": true }
                 }
             }
         },
         "axis":{
             "displayName": "Axis",
+            "displayNameKey": "SettingsCat_Axis",
             "properties": {
                  "showXAxis": {
                     "displayName": "Show X Axis",
+                    "displayNameKey": "Settings_ShowXAxis",
+
                     "type": { "bool": true }
                 },
                 "showYAxis": {
-                    "displayName": "Show Y",
+                    "displayName": "Show Y Axis",
+                    "displayNameKey": "Settings_ShowYAxis",
+
                     "type": { "bool": true }
                 },
                 "AxisYColor": {
-                    "displayName": "Color del eje Y",
+                    "displayName": "Axis color",
+                    "displayNameKey": "Settings_AxisColor",
                     "type": { "fill": { "solid": { "color": true } } }
                 },
                 "fontFamily": {
-                    "displayName": "Fuente del eje Y",
+                    "displayName": "Font family",
+                    "displayNameKey": "Settings_fontFamily",
                     "type": { "text": true }
                 },
                 "fontSize": {
-                    "displayName": "Tamaño de fuente del eje Y",
+                    "displayName": "Font Size",
+                    "displayNameKey": "Settings_fontSize",
                     "type": { "numeric": true }
                 },
                 "FontYAxisColor": {
-                    "displayName": "Color de fuente del eje Y",
+                    "displayName": "Axis labels color",
+                    "displayNameKey": "Settings_axislabelsColor",
                     "type": { "fill": { "solid": { "color": true } } }
                 }
                 }
             },
         "AlignmentCard2": {
-            "displayName": "Alineación de etiquetas",
+            "displayName": "Alingment Labels",
+            "displayNameKey": "Settings_AligmentCard",
             "properties": {
                 "labelRotation": {
-                    "displayName": "Rotación de etiquetas",
+                    "displayName": "Label rotation",
+                    "displayNameKey": "Settings_rotation",
                     "type": { "numeric": true }
                 },
                 "dYAdjustment": {
