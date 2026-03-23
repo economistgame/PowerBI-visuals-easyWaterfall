@@ -304,18 +304,21 @@ export class Visual implements IVisual {
         });
 
         // --- LÍNEAS CONECTORAS ---
-        data.forEach((d, i) => {
-            if (i === data.length - 1) return;
+        const hasConnections = true;
 
-            chart.append("line")
-                .attr("x1", x(d.label)! + x.bandwidth())
-                .attr("y1", y(d.end))
-                .attr("x2", x(data[i + 1].label)!)
-                .attr("y2", y(d.end))
-                .attr("stroke", connectorColor)
-                .attr("stroke-dasharray", "4");
-        });
-    
+        if(hasConnections){
+            data.forEach((d, i) => {
+                if (i === data.length - 1) return;
+
+                chart.append("line")
+                    .attr("x1", x(d.label)! + x.bandwidth())
+                    .attr("y1", y(d.end))
+                    .attr("x2", x(data[i + 1].label)!)
+                    .attr("y2", y(d.end))
+                    .attr("stroke", connectorColor)
+                    .attr("stroke-dasharray", "4");
+            });
+        }
         chart.selectAll(".label")
                 .data(data)
                 .enter()
