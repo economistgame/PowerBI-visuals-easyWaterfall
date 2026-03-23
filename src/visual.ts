@@ -238,13 +238,13 @@ export class Visual implements IVisual {
                 .style("font-family", fontFamily)
                 .style("font-size", fontSize + "px");
 
-            if (rotation !== 0) {
+            if (rotation != 0) {
                 CasosTransformacion
                     .selectAll("text")              //de aqui es donde se lleva la rotación
                     .style("text-anchor", "end")
                     .attr("dx",  "-0.5em")
                     .attr("dy", dYAdjustment+"em")
-                    .attr("transform", "rotate("+rotation+")");
+                    .attr("transform", "rotate(-15)");
             }
 
         }
