@@ -98,7 +98,33 @@
                 },
                 "dYAdjustment": {
                     "displayName": "Ajuste vertical de etiquetas",
+                    "displayNameKey": "Settings_dYAdjustment",
                     "type": { "numeric": true }
+                },
+                "hasOthers":{
+                    "displayName": "Others category",
+                    "displayNameKey": "Settings_hasOthers",
+                    "type": { "bool": true }
+                }, 
+                "OthersLabel":{
+                    "displayName": "Others label",
+                    "displayNameKey": "Settings_OthersLabel",
+                    "type": { "text": true }
+                }, 
+                "hasAligment":{
+                    "displayName": "End Aligment",
+                    "displayNameKey": "Settings_hasAligment",
+                    "type": { "bool": true }
+                }, 
+                "startlevel": {
+                    "displayName": "Start Level",
+                    "displayNameKey": "Settings_startlevel",
+                    "type": { "numeric": true }
+                },
+                "hasConnections":{
+                    "displayName": "Connectors",
+                    "displayNameKey": "Settings_hasConnections",
+                    "type": { "bool": true }
                 }
             }
         }

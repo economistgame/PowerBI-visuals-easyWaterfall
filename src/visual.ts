@@ -97,29 +97,36 @@ export class Visual implements IVisual {
 
 
     // Configuraciones extraídas de settings
-
+        // Colores
         const totalColor     = this.formattingSettings.WaterfallCard.totalColor.value.value;
         const increaseColor  = this.formattingSettings.WaterfallCard.increaseColor.value.value;
         const decreaseColor  = this.formattingSettings.WaterfallCard.decreaseColor.value.value;
         const connectorColor = this.formattingSettings.WaterfallCard.connectorColor.value.value;
-        const inicioText = this.formattingSettings.TextCard.InicioText.value;
-        const finText = this.formattingSettings.TextCard.FinText.value;
+        // Axis
         const AxisYColor = this.formattingSettings.AxisCard.AxisYColor.value.value;
         const fontFamily = this.formattingSettings.AxisCard.fontFamily.value;
         const fontSize = this.formattingSettings.AxisCard.fontSize.value;
-        const FontYAxisColor = this.formattingSettings.AxisCard.FontYAxisColor.value.value;
+        //const FontYAxisColor = this.formattingSettings.AxisCard.FontYAxisColor.value.value;
         const showYAxis = this.formattingSettings.AxisCard.showYAxis.value;
         const showXAxis = this.formattingSettings.AxisCard.showXAxis.value;
         const rotation = this.formattingSettings.AlignmentCard2.labelRotation.value;
         const dYAdjustment = this.formattingSettings.AlignmentCard2.dYAdjustment.value;
 
+        const hasOthers = false;
+        const OthersLabel = "Other";
+        const hasAligment = true;
+        const startlevel = 0;
+        const hasConnections = true;
+
+
+    //Empieza la peli con el gráfico
         const categorical = dataView.categorical;
         const { width, height } = options.viewport;
 
         this.svg.attr("width", width).attr("height", height);
         this.container.selectAll("*").remove();
 
-        // --- EXTRACCIÓN DE VALORES ---
+    // --- EXTRACCIÓN DE VALORES MANEJO DE DATAVIEW ---
         let categories = categorical.categories[0].values.map(v => v.toString());
         const categoriesField = categorical.categories[0];
        
@@ -143,10 +150,15 @@ export class Visual implements IVisual {
         let data: any[] = [];
         let runningTotal = startVal;
 
+        // Ahora mismo tengo endTooltip y end de las barras porque existe la posibilidad 
+        // de elegir que el final del Waterfall sea ajustado o no sin la necesidad de que 
+        // haya un others, si el analista lo considera irrelevante.
         // 1. Valor inicial
+        
+
         data.push({
             label: startName,
-            start: 0,
+            start: startlevel,
             end: startVal,
             endTooltip: startVal,
             type: "total",
@@ -171,12 +183,30 @@ export class Visual implements IVisual {
 
             runningTotal += val;
         });
-
+        // 2.bis Other
+        const othersValue = endVal - runningTotal;
+        if(hasOthers && othersValue!=0){
+            data.push({
+                label: OthersLabel,
+                start: runningTotal,
+                end: othersValue,
+                endTooltip: othersValue,
+                type: othersValue >= 0 ? "inc" : "dec"
+            });
+        }
         // 3. Valor final endVal
+        let graphValue;
+        if(hasAligment){
+             graphValue = runningTotal;
+        } else {
+             graphValue = endVal
+
+        }
+
         data.push({
             label: endName,
-            start: 0,
-            end: runningTotal,
+            start: startlevel,
+            end: graphValue,
             endTooltip: endVal,
             type: "total",
             selectionId: this.host.createSelectionIdBuilder().createSelectionId()
@@ -219,13 +249,13 @@ export class Visual implements IVisual {
                 .style("font-family", fontFamily)
                 .style("font-size", fontSize + "px");
 
-            if (rotation !== 0) {
+            if (rotation != 0) {
                 CasosTransformacion
                     .selectAll("text")              //de aqui es donde se lleva la rotación
                     .style("text-anchor", "end")
                     .attr("dx",  "-0.5em")
                     .attr("dy", dYAdjustment+"em")
-                    .attr("transform", "rotate("+rotation+")");
+                    .attr("transform", "rotate(-15)");
             }
 
         }
@@ -266,7 +296,7 @@ export class Visual implements IVisual {
         );
 
         // --- INTERACTIVIDAD ---
-        //Edfecto de selección al hacer click sobre una barra
+        //Efecto de selección al hacer click sobre una barra
         bars.on("click", (event, d: any) => {
             if (this.host.hostCapabilities.allowInteractions) {
                 const excludedCategories = ["total"];
@@ -304,18 +334,20 @@ export class Visual implements IVisual {
         });
 
         // --- LÍNEAS CONECTORAS ---
-        data.forEach((d, i) => {
-            if (i === data.length - 1) return;
 
-            chart.append("line")
-                .attr("x1", x(d.label)! + x.bandwidth())
-                .attr("y1", y(d.end))
-                .attr("x2", x(data[i + 1].label)!)
-                .attr("y2", y(d.end))
-                .attr("stroke", connectorColor)
-                .attr("stroke-dasharray", "4");
-        });
-    
+        if(hasConnections){
+            data.forEach((d, i) => {
+                if (i === data.length - 1) return;
+
+                chart.append("line")
+                    .attr("x1", x(d.label)! + x.bandwidth())
+                    .attr("y1", y(d.end))
+                    .attr("x2", x(data[i + 1].label)!)
+                    .attr("y2", y(d.end))
+                    .attr("stroke", connectorColor)
+                    .attr("stroke-dasharray", "4");
+            });
+        }
         chart.selectAll(".label")
                 .data(data)
                 .enter()
